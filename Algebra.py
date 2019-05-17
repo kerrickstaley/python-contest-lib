@@ -119,7 +119,23 @@ def test_egcd():
         print('egcd s*a + t*b = g fail:', a, b, file=sys.stderr)
 
 
+def test_CRT():
+  print("test CRT", file=sys.stderr)
+  for m in range(1, 100):
+    for n in range(1, 100):
+      for a in range(0, m):
+        for b in range(0, n):
+          z = CRT(a, m, b, n)
+          g = gcd(m, n)
+          if a % g != b % g and z != -1:
+            print('CRT gave an impossible solution:  z =', a, 'mod', m, 'and z =', b, 'mod', n, file=sys.stderr)
+          if a % g == b % g:
+            if z % m != a or z % n != b:
+              print('CRT gave a bad solution: z =', a, 'mod', m, 'and z =', b, 'mod', n, file=sys.stderr)
+
+
 if __name__ == '__main__' and not hasattr(sys, 'ps1'):
   test_gcd()
   test_lcm()
   test_egcd()
+  test_CRT()
