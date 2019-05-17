@@ -42,14 +42,14 @@ class BIT:
   def sum_range(self, l, r):
     return self.sum(r) - self.sum(l - 1)
 
-	# Find largest r so that sum( arry[0..r] ) <= thresh
-	# This assumes arry[i] >= 0 for all i > 0, for monotonicity.
-	# This takes advantage of the specific structure of LSB() to simplify the
-	# binary search.
+  # Find largest r so that sum( arry[0..r] ) <= thresh
+  # This assumes arry[i] >= 0 for all i > 0, for monotonicity.
+  # This takes advantage of the specific structure of LSB() to simplify the
+  # binary search.
   def largest_at_most(self, thresh):
     r = 0
     del_ = self.N
-    while del_ and r <= N:
+    while del_ and r <= self.N:
       q = r + del_
       if self.A[q] <= thresh:
         r = q
@@ -87,7 +87,34 @@ def test_BIT_correct():
         success = False
         print('Error in BIT.sum_range(', qL, ', ', qR - 1, '): ', end='', file=sys.stderr)
         print('Expected: ', A[qR] - A[qL], ', Actual: ', result, file=sys.stderr)
-  # TODO: second half of this function
+
+  N = 1 << 7
+  tr = BIT(N)
+  A = [0] * N
+  tr.add( 6, 14 );   A[6]   += 14
+  tr.add( 28, 52 );  A[28]  += 52
+  tr.add( 24, 2 );   A[24]  += 2
+  tr.add( 99, 0 );   A[99]  += 0
+  tr.add( 99, 1 );   A[99]  += 1
+  tr.add( 99, 3 );   A[99]  += 3
+  tr.add( 100, 4 );  A[100] += 4
+  tr.add( 91,4 );    A[91]  += 4
+  AS = [0] * (len(A) + 1)
+  for i in range(1, len(AS)):
+    AS[i] = AS[i - 1] + A[i - 1]
+  UB = AS[-1]
+  for q in range(UB):
+    result = tr.largest_at_most(q) + 1
+    exp = 0
+    while exp + 1 < len(AS) and AS[exp + 1] <= q:
+      exp += 1
+    if result != exp:
+      success = False
+      print('Error in BIT.largest_at_most(', q, '): ', end='', file=sys.stderr)
+      print('Expected: ', exp, ', Actual: ', result, file=sys.stderr)
+
+  if success:
+        print('BIT correct!', file=sys.stderr)
 
 
 if __name__ == '__main__' and not hasattr(sys, 'ps1'):
