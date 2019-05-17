@@ -60,7 +60,7 @@ def CRT(a, m, b, n):
     r2 = r2 * n % l
     return (r1 + r2) % l
   else:
-    return g * CRT(a / g, m / g, b / g, n / g) + r
+    return g * CRT(a // g, m // g, b // g, n // g) + r
 
 
 # Chinese remainder theorem, extended version.
