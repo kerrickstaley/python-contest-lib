@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 # basic gcd
 def gcd(a, b):
   if a < 0:
@@ -75,3 +77,28 @@ def CRT_ext(a, n):
     if ret == -1:
       return -1
   return ret
+
+
+# END
+
+import sys
+
+
+def test_gcd():
+  print("test gcd", file=sys.stderr)
+  if gcd( 4, 7) != 1:
+    print('gcd( 4, 7) != 1', file=sys.stderr)
+  if gcd( 0, 7) != 7:
+    print('gcd( 0, 7) != 7', file=sys.stderr)
+  if gcd(14, 7) != 7:
+    print('gcd(14, 7) != 7', file=sys.stderr)
+  if gcd(14,21) != 7:
+    print('gcd(14,21) != 7', file=sys.stderr)
+  if gcd(-7, 7) != 7:
+    print('gcd(-7, 7) != 7', file=sys.stderr)
+  if gcd(-7,-7) != 7:
+    print('gcd(-7,-7) != 7', file=sys.stderr)
+
+
+if __name__ == '__main__' and not hasattr(sys, 'ps1'):
+  test_gcd()
