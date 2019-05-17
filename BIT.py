@@ -25,7 +25,7 @@ class BIT:
   # add v to arry[idx]
   def add(self, idx, v):
     i = idx + 1
-    while i <= N:
+    while i <= self.N:
       self.A[i] += v
       i += LSB(i)
 
@@ -54,5 +54,41 @@ class BIT:
       if self.A[q] <= thresh:
         r = q
         thresh -= self.A[q]
-      del //= 2
+      del_ //= 2
     return r - 1
+
+
+# END
+
+import sys
+
+
+def test_BIT_correct():
+  success = True
+  # only two test suites...
+  N = 1 << 5
+  NN = N * N  # ~1e3
+  tr = BIT(NN)  # BIT on NN elts
+  # Basic tests
+  for i in range(NN):
+    tr.add(i, 56 * i * (i + 3))
+  A = [0] * (NN + 1)  # prefix sums, for checking
+  for i in range(1, tr.N + 1):
+    A[i] = A[i - 1] + 56 * (i - 1) * (i + 2)
+  for q in range(NN + 1):
+    result = tr.sum(q - 1)
+    if result != A[q]:
+      success = False
+      print('Error in BIT.add/sum(', q, '): Expected:', A[q], ', Actual:', result, file=sys.stderr)
+  for qL in range(0, N):
+    for qR in range(qL, qL + N):
+      result = tr.sum_range(qL, qR - 1)
+      if result != A[qR] - A[qL]:
+        success = False
+        print('Error in BIT.sum_range(', qL, ', ', qR - 1, '): ', end='', file=sys.stderr)
+        print('Expected: ', A[qR] - A[qL], ', Actual: ', result, file=sys.stderr)
+  # TODO: second half of this function
+
+
+if __name__ == '__main__' and not hasattr(sys, 'ps1'):
+  test_BIT_correct()
