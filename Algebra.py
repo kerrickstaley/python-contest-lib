@@ -108,6 +108,18 @@ def test_lcm():
         print('lcm * gcd != product:', a, b, file=sys.stderr)
 
 
+def test_egcd():
+  print("test egcd", file=sys.stderr)
+  for a in range(0, 100):
+    for b in range(0, 100):
+      g, s, t = egcd(a, b)
+      if gcd(a, b) != g:
+        print('gcd != egcd:', a, b, file=sys.stderr)
+      if s * a + b * t != g:
+        print('egcd s*a + t*b = g fail:', a, b, file=sys.stderr)
+
+
 if __name__ == '__main__' and not hasattr(sys, 'ps1'):
   test_gcd()
   test_lcm()
+  test_egcd()
