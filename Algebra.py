@@ -100,5 +100,14 @@ def test_gcd():
     print('gcd(-7,-7) != 7', file=sys.stderr)
 
 
+def test_lcm():
+  print("test lcm", file=sys.stderr)
+  for a in range(1, 100):
+    for b in range(1, 100):
+      if gcd(a, b) * lcm(a, b) != a * b:
+        print('lcm * gcd != product:', a, b, file=sys.stderr)
+
+
 if __name__ == '__main__' and not hasattr(sys, 'ps1'):
   test_gcd()
+  test_lcm()
