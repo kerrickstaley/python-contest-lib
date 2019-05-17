@@ -134,8 +134,25 @@ def test_CRT():
               print('CRT gave a bad solution: z =', a, 'mod', m, 'and z =', b, 'mod', n, file=sys.stderr)
 
 
+def test_CRT_ext():
+  print("test CRT_ext", file=sys.stderr)
+  solution = 155
+  n = [9, 4, 55, 77, 10, 166]
+  a = [solution % ni for ni in n]
+  r = CRT_ext(a, n)
+  if solution != r:
+    print('CRT_ext gave the wrong solution (test #1)', file=sys.stderr)
+
+  n = [2, 6]
+  a = [0, 1]
+  r = CRT_ext(a, n)
+  if r != -1:
+    print('CRT_ext did not indicate failure (test #2)', file=sys.stderr)
+
+
 if __name__ == '__main__' and not hasattr(sys, 'ps1'):
   test_gcd()
   test_lcm()
   test_egcd()
-  test_CRT()
+  # test_CRT()  # Note, this is slow
+  test_CRT_ext()
